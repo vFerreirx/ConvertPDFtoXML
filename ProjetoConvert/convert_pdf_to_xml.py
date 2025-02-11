@@ -1,12 +1,11 @@
 import os
-import fitz  # PyMuPDF
+import fitz 
 import xml.etree.ElementTree as ET
 
-# Diretórios de entrada e saída
-pasta_pdf = "pdfs"  # Pasta onde estão os PDFs
-pasta_xml = "xmls"  # Pasta onde os XMLs serão salvos
 
-# Certificar que a pasta de saída existe
+pasta_pdf = "pdfs"  
+pasta_xml = "xmls"  
+
 os.makedirs(pasta_xml, exist_ok=True)
 
 def pdf_para_xml(pdf_path, xml_path):
@@ -15,13 +14,11 @@ def pdf_para_xml(pdf_path, xml_path):
 
     for num, page in enumerate(doc, start=1):
         pagina = ET.SubElement(root, "pagina", numero=str(num))
-        pagina.text = page.get_text("text")  # Extrai o texto da página
+        pagina.text = page.get_text("text") 
 
-    # Criar e salvar o XML
     tree = ET.ElementTree(root)
     tree.write(xml_path, encoding="utf-8", xml_declaration=True)
 
-# Processar todos os PDFs na pasta
 for arquivo in os.listdir(pasta_pdf):
     if arquivo.endswith(".pdf"):
         pdf_path = os.path.join(pasta_pdf, arquivo)
